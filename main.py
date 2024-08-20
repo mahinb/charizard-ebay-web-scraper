@@ -2,7 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 from operator import itemgetter
 
-#
 url = 'https://www.ebay.com/sch/i.html?_from=R40&_nkw=base+set+charizard&LH_BIN=1&_sop=12' #can replace "base+set+charizard" for whatever you want to search, add "&_pgn=" with a number after "=" to navigate through pages, planning on implementing an incrementer
 request = requests.get(url)
 print(request) #output will be <Response[200]> if request is successful

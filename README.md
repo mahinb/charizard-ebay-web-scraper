@@ -31,46 +31,6 @@ pip install requests beautifulsoup4 lxml
 5. **Sort Results**: Sorts the results by price.
 6. **Print Results**: Outputs the filtered and sorted results in a readable format.
 
-## Example Code
-
-```python
-import requests
-from bs4 import BeautifulSoup
-from operator import itemgetter
-
-url = 'https://www.ebay.com/sch/i.html?_from=R40&_nkw=base+set+charizard&LH_BIN=1&_sop=12'
-request = requests.get(url)
-print(request) # Output will be <Response[200]> if request is successful
-
-soup = BeautifulSoup(request.text, 'lxml')
-ebay_s = soup.find_all('div', class_='s-item__info clearfix')[2:] # Start from 3rd element
-
-ebay_data = []
-for item in ebay_s:
-    title = item.find('div', class_='s-item__title').text.strip()
-    if "charizard" in title.lower() and 'base set' in title.lower() and '1999' in title.lower():
-        price = float(item.find('div', class_='s-item__detail s-item__detail--primary').text.strip().replace(',','').strip('$'))
-        quality = item.find('div', class_='s-item__subtitle')
-        if quality is not None:
-            quality = quality.text.strip()
-        else:
-            quality = 'N/A'
-        shipping = item.find('span', class_='s-item__shipping s-item__logisticsCost').text.strip()
-        url = item.find('a', class_='s-item__link').get('href')
-        data_tuple = (title, price, quality, shipping, url)
-        ebay_data.append(data_tuple)
-
-ebay_data = sorted(ebay_data, key=itemgetter(1)) # Sort by price
-
-for item in ebay_data:
-    print("Name:", item[0])
-    print("Price:","$" + '{:,.2f}'.format(item[1]))
-    print("Quality:", item[2])
-    print("Shipping:", item[3])
-    print("URL:", item[4])
-    print("-" * 50)
-```
-
 ## Customization
 
 - **Search Query**: Modify the `url` variable to search for different products. Change the `base+set+charizard` part to your desired query.
